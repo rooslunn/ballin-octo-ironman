@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map-canvas { height: 100% }
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUvd2VrNDd_2EPd7YmSh6PwjTVJ1Kx1_o&sensor=true">
+    </script>
+    <script type="text/javascript">
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"/>
+    <script type="text/javascript">
+      var locations = [
+        ['Location 1', 55.715218,37.513847, 1],
+        ['Location 2', 55.70574,37.714348,  2],
+        ['Location 3', 55.735423,37.823181, 3]
+      ];
+
+      var map = new google.maps.Map(document.getElementById('map-canvas'), {
+        zoom: 10,
+        center: new google.maps.LatLng(55.715218,37.513847),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+
+      var infowindow = new google.maps.InfoWindow();
+
+      var marker, i;
+
+      for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+          map: map
+        });
+
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+            infowindow.setContent(locations[i][0]);
+            infowindow.open(map, marker);
+          }
+        })(marker, i));
+      }
+    </script>
+  </body>
+</html>
